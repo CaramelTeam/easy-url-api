@@ -5,7 +5,7 @@ import { UpdateUrlDto } from './dto/update-url.dto';
 
 @Controller('url')
 export class UrlController {
-  constructor(private readonly urlService: UrlService) {}
+  constructor(private readonly urlService: UrlService) { }
 
   @Post()
   create(@Body() createUrlDto: CreateUrlDto) {
@@ -19,16 +19,21 @@ export class UrlController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.urlService.findOne(+id);
+    return this.urlService.findOne(id);
+  }
+
+  @Get('tag/:tag')
+  findByTag(@Param('tag') tag: string) {
+    return this.urlService.findByTag(tag);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUrlDto: UpdateUrlDto) {
-    return this.urlService.update(+id, updateUrlDto);
+    return this.urlService.update(id, updateUrlDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.urlService.remove(+id);
+    return this.urlService.remove(id);
   }
 }

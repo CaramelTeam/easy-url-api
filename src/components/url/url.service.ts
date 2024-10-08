@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { UpdateUrlDto } from './dto/update-url.dto';
+import { UrlRepository } from './url.repository';
 
 @Injectable()
 export class UrlService {
+
+  constructor(
+    private readonly urlRepository: UrlRepository
+  ) { }
+
+
   create(createUrlDto: CreateUrlDto) {
-    return 'This action adds a new url';
+    return this.urlRepository.create(createUrlDto);
   }
 
   findAll() {
-    return `This action returns all url`;
+    return this.urlRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} url`;
+  findByTag(tag: string) {
+    return this.urlRepository.findByTag(tag);
   }
 
-  update(id: number, updateUrlDto: UpdateUrlDto) {
-    return `This action updates a #${id} url`;
+  findOne(id: string) {
+    return this.urlRepository.findOne({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} url`;
+  update(id: string, updateUrlDto: UpdateUrlDto) {
+    return this.urlRepository.findOneAndUpdate({ id }, updateUrlDto);
+  }
+
+  remove(id: string) {
+    return this.urlRepository.findOneAndDelete({ id });
   }
 }
