@@ -24,6 +24,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     async validate(payload: JWTI) {
         const { email } = payload;
         const user = await this.userService.findByEmail(email);
+        // console.log('user jwt strategies ', user);
+        // const id = user._id.toString();
         delete user.password;
         if (!user) {
             throw new UnauthorizedException('Unauthorized');

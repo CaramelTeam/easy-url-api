@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
 
 export class CreateUrlDto {
     @IsString()
@@ -18,6 +18,11 @@ export class CreateUrlDto {
     @IsString()
     @IsOptional()
     tag?: string;
+
+    @IsString()
+    @IsOptional()
+    @IsMongoId()
+    user_id?: string;
 
 
 }

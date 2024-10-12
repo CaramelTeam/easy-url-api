@@ -16,8 +16,6 @@ export class TagRepository extends AbstractRepository<TagDocument> {
     async create(document: Omit<TagDocument, "_id">): Promise<TagDocument> {
         this.logger.log(`Creating a new document with data ${JSON.stringify(document)}`);
         const tag = await this.model.find({ $or: [{ name: document.name }, { color: document.color }] });
-        console.log('tag', tag);
-
         if (tag.length > 0) {
             throw new BadRequestException(`Tag with name ${document.name} or color ${document.color} already exists`);
         }
@@ -30,12 +28,12 @@ export class TagRepository extends AbstractRepository<TagDocument> {
         });
     }
 
-    async find(filterQuery: any): Promise<TagDocument[]> {
-        return super.find(filterQuery);
+    async find(filterQuery: { user_id: string }): Promise<TagDocument[]> {
+        return super.find({ user_id: filterQuery.user_id });
     }
 
-    async findOneAndDelete(filterQuery: { id: string }): Promise<TagDocument> {
-        return super.findOneAndDelete({ _id: filterQuery.id });
+    async findOneAndDelete(filterQuery: { id: string, user_id: string }): Promise<TagDocument> {
+        return await super.findOneAndDelete({ _id: filterQuery.id, user_id: filterQuery.user_id });
     }
 
 

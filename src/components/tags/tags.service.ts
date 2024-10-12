@@ -12,8 +12,8 @@ export class TagsService {
     return this.tagRepository.create(createTagDto);
   }
 
-  findAll() {
-    return this.tagRepository.find({});
+  findAll(user_id: string) {
+    return this.tagRepository.find({ user_id });
   }
 
   findOne(id: number) {
@@ -24,7 +24,7 @@ export class TagsService {
     return `This action updates a #${id} tag`;
   }
 
-  remove(id: string) {
-    return this.tagRepository.findOneAndDelete({ id });
+  async remove(id: string, user_id: string) {
+    return await this.tagRepository.findOneAndDelete({ id, user_id });
   }
 }
