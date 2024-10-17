@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { UrlDocument } from "./entities/url.entity";
 import { AbstractRepository } from "@database/abstract.repository";
 import { InjectModel } from "@nestjs/mongoose";
@@ -37,19 +37,29 @@ export class UrlRepository extends AbstractRepository<UrlDocument> {
         return super.findOneAndUpdate({ _id: filterQuery.id }, update);
     }
 
-    async find(filterQuery: any): Promise<UrlDocument[]> {
-        return this.model.aggregate([
+    async find(filterQuery: { user_id: string }): Promise<UrlDocument[]> {
+        console.log('filterQuery', filterQuery.user_id);
+        const data = await this.model.aggregate([
+            {
+                $match: { user_id: filterQuery.user_id.toString() }
+            },
             {
                 $group: {
                     _id: "$tag",
                     count: { $sum: 1 },
-                    urls: { $push: "$$ROOT" }
+                    urls: { $push: "$$ROOT" },
                 }
             },
             {
                 $sort: { count: -1 }
             }
         ])
+
+        if (data.length === 0) {
+            throw new NotFoundException("No URLs found");
+        }
+        return data;
+        // return await super.find({ user_id: filterQuery.user_id });
     }
 
     async findOneAndDelete(filterQuery: { id: string }): Promise<UrlDocument> {

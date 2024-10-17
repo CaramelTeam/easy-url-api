@@ -15,6 +15,9 @@ export class UrlDocument extends AbstractDocument {
     @Prop({ required: false, default: "Unassigned" })
     tag?: string;
 
+    @Prop({ required: true })
+    user_id?: string;
+
 }
 
 export const UrlSchema = SchemaFactory.createForClass(UrlDocument);

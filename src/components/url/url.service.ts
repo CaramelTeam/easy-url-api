@@ -15,8 +15,8 @@ export class UrlService {
     return this.urlRepository.create(createUrlDto);
   }
 
-  findAll() {
-    return this.urlRepository.find({});
+  findAll(user_id: string) {
+    return this.urlRepository.find({ user_id });
   }
 
   findByTag(tag: string) {

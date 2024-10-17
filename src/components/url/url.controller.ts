@@ -3,6 +3,8 @@ import { UrlService } from './url.service';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { GetCurrentUser } from '@libs/utils/decorator/get-user.decorator';
+import { UserInterfaceJWT } from '@libs/utils/decorator/constants/interface/user.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('url')
@@ -10,13 +12,14 @@ export class UrlController {
   constructor(private readonly urlService: UrlService) { }
 
   @Post()
-  create(@Body() createUrlDto: CreateUrlDto) {
+  create(@Body() createUrlDto: CreateUrlDto, @GetCurrentUser() user: UserInterfaceJWT) {
+    createUrlDto.user_id = user._id;
     return this.urlService.create(createUrlDto);
   }
 
   @Get()
-  findAll() {
-    return this.urlService.findAll();
+  findAll(@GetCurrentUser() user: UserInterfaceJWT) {
+    return this.urlService.findAll(user._id);
   }
 
   @Get(':id')
