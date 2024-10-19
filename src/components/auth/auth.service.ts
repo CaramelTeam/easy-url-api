@@ -23,4 +23,16 @@ export class AuthService {
     delete user.password;
     return { ...user, token };
   }
+
+  async validateJwt(token: string) {
+    try {
+      const result = await this.jwtService.verify(token);
+      return {
+        isValid: true,
+        result
+      }
+    } catch (error) {
+      throw new UnauthorizedException({ isValid: false });
+    }
+  }
 }

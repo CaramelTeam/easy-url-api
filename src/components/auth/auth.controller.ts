@@ -10,4 +10,10 @@ export class AuthController {
   create(@Body() loginDto: LoginDto) {
     return this.authService.validate(loginDto);
   }
+
+  @Post('/validate')
+  validateJwt(@Body('token') token: string) {
+    return this.authService.validateJwt(token);
+  }
+
 }
