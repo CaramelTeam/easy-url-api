@@ -2,7 +2,7 @@ import { AbstractRepository } from "@database/abstract.repository";
 import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { TagDocument } from "./entities/tag.entity";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { FilterQuery, Model, UpdateQuery } from "mongoose";
 
 @Injectable()
 export class TagRepository extends AbstractRepository<TagDocument> {
@@ -34,6 +34,10 @@ export class TagRepository extends AbstractRepository<TagDocument> {
 
     async findOneAndDelete(filterQuery: { id: string, user_id: string }): Promise<TagDocument> {
         return await super.findOneAndDelete({ _id: filterQuery.id, user_id: filterQuery.user_id });
+    }
+
+    async findOneAndUpdate(filterQuery: { _id: string, user_id: string }, update: UpdateQuery<TagDocument>): Promise<TagDocument> {
+        return await super.findOneAndUpdate(filterQuery, update);
     }
 
 

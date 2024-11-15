@@ -3,7 +3,6 @@ import { UrlDocument } from "./entities/url.entity";
 import { AbstractRepository } from "@database/abstract.repository";
 import { InjectModel } from "@nestjs/mongoose";
 import { FilterQuery, Model } from "mongoose"
-import { count } from "console";
 @Injectable()
 export class UrlRepository extends AbstractRepository<UrlDocument> {
     protected readonly logger = new Logger(UrlRepository.name);
@@ -31,10 +30,10 @@ export class UrlRepository extends AbstractRepository<UrlDocument> {
     }
 
     async findOneAndUpdate(
-        filterQuery: { id: string },
+        filterQuery: { id: string, user_id: string },
         update: any
     ): Promise<UrlDocument> {
-        return super.findOneAndUpdate({ _id: filterQuery.id }, update);
+        return super.findOneAndUpdate({ _id: filterQuery.id, user_id: filterQuery.user_id }, update);
     }
 
     async find(filterQuery: { user_id: string }): Promise<UrlDocument[]> {

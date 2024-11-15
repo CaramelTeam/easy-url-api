@@ -20,8 +20,8 @@ export class TagsService {
     return `This action returns a #${id} tag`;
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
-    return `This action updates a #${id} tag`;
+  update(filterQuery: { _id: string, user_id: string }, updateTagDto: UpdateTagDto) {
+    return this.tagRepository.findOneAndUpdate(filterQuery, updateTagDto)
   }
 
   async remove(id: string, user_id: string) {

@@ -33,7 +33,8 @@ export class UrlController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUrlDto: UpdateUrlDto) {
+  update(@Param('id') id: string, @Body() updateUrlDto: UpdateUrlDto, @GetCurrentUser() user: UserInterfaceJWT) {
+    updateUrlDto.user_id = user._id;
     return this.urlService.update(id, updateUrlDto);
   }
 

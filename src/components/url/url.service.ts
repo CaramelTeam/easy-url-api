@@ -28,7 +28,7 @@ export class UrlService {
   }
 
   update(id: string, updateUrlDto: UpdateUrlDto) {
-    return this.urlRepository.findOneAndUpdate({ id }, updateUrlDto);
+    return this.urlRepository.findOneAndUpdate({ id, user_id: updateUrlDto.user_id }, updateUrlDto);
   }
 
   remove(id: string) {

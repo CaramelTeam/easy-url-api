@@ -29,8 +29,7 @@ export class TagsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto, @GetCurrentUser() user: UserInterfaceJWT) {
-    updateTagDto.user_id = user._id;
-    return this.tagsService.update(+id, updateTagDto);
+    return this.tagsService.update({ _id: id, user_id: user._id }, updateTagDto);
   }
 
   @Delete(':id')
