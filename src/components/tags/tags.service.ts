@@ -12,19 +12,19 @@ export class TagsService {
     return this.tagRepository.create(createTagDto);
   }
 
-  findAll() {
-    return this.tagRepository.find({});
+  findAll(user_id: string) {
+    return this.tagRepository.find({ user_id });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} tag`;
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
-    return `This action updates a #${id} tag`;
+  update(filterQuery: { _id: string, user_id: string }, updateTagDto: UpdateTagDto) {
+    return this.tagRepository.findOneAndUpdate(filterQuery, updateTagDto)
   }
 
-  remove(id: string) {
-    return this.tagRepository.findOneAndDelete({ id });
+  async remove(id: string, user_id: string) {
+    return await this.tagRepository.findOneAndDelete({ id, user_id });
   }
 }

@@ -6,7 +6,7 @@ import { Injectable } from "@nestjs/common";
 export class BcryptAdapter implements BcryptAdapterInterface {
     constructor() { }
     compare(value: string, hash: string): boolean {
-        return false;
+        return compareSync(value, hash);
     }
 
     encryptString(value: string): string {

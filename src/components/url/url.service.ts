@@ -15,8 +15,8 @@ export class UrlService {
     return this.urlRepository.create(createUrlDto);
   }
 
-  findAll() {
-    return this.urlRepository.find({});
+  findAll(user_id: string) {
+    return this.urlRepository.find({ user_id });
   }
 
   findByTag(tag: string) {
@@ -28,7 +28,7 @@ export class UrlService {
   }
 
   update(id: string, updateUrlDto: UpdateUrlDto) {
-    return this.urlRepository.findOneAndUpdate({ id }, updateUrlDto);
+    return this.urlRepository.findOneAndUpdate({ id, user_id: updateUrlDto.user_id }, updateUrlDto);
   }
 
   remove(id: string) {

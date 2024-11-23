@@ -8,6 +8,9 @@ export class TagDocument extends AbstractDocument {
 
     @Prop({ required: true })
     color: string;
+
+    @Prop({ required: true })
+    user_id: string;
 }
 
 export const TagSchema = SchemaFactory.createForClass(TagDocument);

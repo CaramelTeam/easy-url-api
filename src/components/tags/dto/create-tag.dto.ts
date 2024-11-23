@@ -1,4 +1,4 @@
-import { IsHexColor, IsNotEmpty, IsString, Matches, MaxLength } from "class-validator";
+import { IsHexColor, IsMongoId, IsNotEmpty, IsOptional, IsString, Matches, MaxLength } from "class-validator";
 
 export class CreateTagDto {
     @IsString()
@@ -10,4 +10,9 @@ export class CreateTagDto {
     @IsNotEmpty()
     @Matches(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, { message: 'Invalid color format' })
     color: string;
+
+    @IsOptional()
+    @IsString()
+    @IsMongoId()
+    user_id: string;
 }
