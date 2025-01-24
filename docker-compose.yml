@@ -5,7 +5,7 @@ services:
       target: ${STAGE}
 
     container_name: easy-url-api
-    image: ${ECR_REGISTRY}/easy-url-api:qa-${IMAGE_TAG}
+    image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:qa-${IMAGE_TAG}
     ports:
       - ${APP_PORT}:${APP_PORT}
     # env_file:
