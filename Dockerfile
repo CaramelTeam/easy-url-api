@@ -1,5 +1,5 @@
 # Etapa base: Instalación de dependencias (incluye dev)
-FROM node:20-alpine3.15 AS base
+FROM node:20-alpine3.20 AS base
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
