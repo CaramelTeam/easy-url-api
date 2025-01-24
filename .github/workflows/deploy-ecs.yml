@@ -60,6 +60,19 @@ jobs:
           container-name: easy-url-api
           image: ${{ needs.build.outputs.image }}
 
+      - name: cat task definition
+        run: cat task-definition.json
+
+      - name: Get Service ARN
+        id: get-service-arn
+        run: |
+          SERVICE_ARN=$(aws ecs describe-services \
+          --cluster easy_cluster \
+          --services easy-api-service \
+          --query "services[0].serviceArn" \
+          --output text)
+          echo "service_arn=$SERVICE_ARN" >> $GITHUB_ENV
+
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
