@@ -1,5 +1,5 @@
 # Etapa base: Instalación de dependencias (incluye dev)
-FROM node:19-alpine3.15 AS base
+FROM node:20-alpine3.20 AS base
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # Etapa de producción
-FROM node:19-alpine3.15 AS prod
+FROM node:20-alpine3.20 AS prod
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev

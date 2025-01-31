@@ -1,0 +1,12 @@
+services:
+  api:
+    build:
+      context: .
+      target: ${STAGE}
+
+    container_name: easy-url-api
+    image: easy-url-api
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env

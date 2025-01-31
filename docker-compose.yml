@@ -4,9 +4,9 @@ services:
       context: .
       target: ${STAGE}
 
-    container_name: easy-api
-    image: easy-api:${STAGE}
+    container_name: easy-url-api
+    image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:qa-${IMAGE_TAG}
     ports:
-      - '3000:3000'
-    env_file:
-      - ./.env
+      - ${APP_PORT}:${APP_PORT}
+    # env_file:
+    #   - ./.env
