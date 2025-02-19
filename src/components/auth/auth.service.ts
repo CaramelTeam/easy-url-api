@@ -5,6 +5,7 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { AdaptersKey } from '@libs/adapters/keys.adapters';
 import { BcryptAdapterInterface } from '@libs/adapters/bcrypt/bcrypt.interface';
+import { FirebaseService } from '@config/firebase/firebase.service';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,8 @@ export class AuthService {
     private readonly userService: UserService,
     @Inject(AdaptersKey.BCRYPT_KEY)
     private readonly bcryptAdapter: BcryptAdapterInterface,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly firebaseService: FirebaseService
   ) { }
 
   async validate(loginDto: LoginDto) {
@@ -34,5 +36,10 @@ export class AuthService {
     } catch (error) {
       throw new UnauthorizedException({ isValid: false });
     }
+  }
+
+  async validateFirebaseToken(token: string) {
+    return await this.firebaseService.verifyToken(token);
+    // return 'Funcionando'
   }
 }

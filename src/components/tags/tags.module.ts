@@ -4,6 +4,7 @@ import { TagsController } from './tags.controller';
 import { DatabaseModule } from '@database/database.module';
 import { TagDocument, TagSchema } from './entities/tag.entity';
 import { TagRepository } from './tag.repository';
+import { FirebaseModule } from '@config/firebase/firebase.module';
 
 @Module({
   controllers: [TagsController],
@@ -15,7 +16,8 @@ import { TagRepository } from './tag.repository';
         name: TagDocument.name,
         schema: TagSchema
       }
-    ])
+    ]),
+    FirebaseModule
   ]
 })
 export class TagsModule { }

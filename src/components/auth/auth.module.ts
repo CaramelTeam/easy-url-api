@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { envs } from '@config/envs';
 import { JwtStrategy } from './strategies/jwt.strategies';
 import { AdapterModule } from '@libs/adapters/adapter.module';
+import { FirebaseModule } from '@config/firebase/firebase.module';
 
 @Module({
   controllers: [AuthController],
@@ -20,7 +21,8 @@ import { AdapterModule } from '@libs/adapters/adapter.module';
         expiresIn: envs.jwt.expiration
       }
     }),
-    AdapterModule
+    AdapterModule,
+    FirebaseModule
   ],
   exports: [JwtStrategy, PassportModule, JwtModule]
 })

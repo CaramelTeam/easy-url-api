@@ -42,11 +42,33 @@ export class UrlRepository extends AbstractRepository<UrlDocument> {
             {
                 $match: { user_id: filterQuery.user_id.toString() }
             },
+            // {
+            //     $group: {
+            //         _id: "$tag",
+            //         count: { $sum: 1 },
+            //         urls: { $push: "$$ROOT" },
+            //     }
+            // },
             {
-                $group: {
-                    _id: "$tag",
-                    count: { $sum: 1 },
-                    urls: { $push: "$$ROOT" },
+                $lookup: {
+                    from: 'tags',
+                    localField: 'tag',
+                    foreignField: 'name',
+                    as: 'tagDetails',
+                    pipeline: [
+                        { $project: { _id: 0, name: 1, color: 1 } } // Project only the fields you need
+                    ]
+                }
+            },
+            {
+                $unwind: {
+                    path: '$tagDetails',
+                    preserveNullAndEmptyArrays: true // Ensure tagDetails is included even if no match
+                }
+            },
+            {
+                $addFields: {
+                    tagDetails: { $ifNull: ['$tagDetails', {}] } // Replace null with an empty object
                 }
             },
             {

@@ -5,21 +5,23 @@ import { UpdateUrlDto } from './dto/update-url.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { GetCurrentUser } from '@libs/utils/decorator/get-user.decorator';
 import { UserInterfaceJWT } from '@libs/utils/decorator/constants/interface/user.interface';
+import { FirebaseGuard } from '../auth/guards/firebase/firebase.guard';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
+@UseGuards(FirebaseGuard)
 @Controller('url')
 export class UrlController {
   constructor(private readonly urlService: UrlService) { }
 
   @Post()
   create(@Body() createUrlDto: CreateUrlDto, @GetCurrentUser() user: UserInterfaceJWT) {
-    createUrlDto.user_id = user._id;
+    createUrlDto.user_id = user.user_id;
     return this.urlService.create(createUrlDto);
   }
 
   @Get()
   findAll(@GetCurrentUser() user: UserInterfaceJWT) {
-    return this.urlService.findAll(user._id);
+    return this.urlService.findAll(user.user_id);
   }
 
   @Get(':id')
@@ -34,7 +36,7 @@ export class UrlController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUrlDto: UpdateUrlDto, @GetCurrentUser() user: UserInterfaceJWT) {
-    updateUrlDto.user_id = user._id;
+    updateUrlDto.user_id = user.user_id;
     return this.urlService.update(id, updateUrlDto);
   }
 

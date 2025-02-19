@@ -5,21 +5,22 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { GetCurrentUser } from '@libs/utils/decorator/get-user.decorator';
 import { UserInterfaceJWT } from '@libs/utils/decorator/constants/interface/user.interface';
+import { FirebaseGuard } from '../auth/guards/firebase/firebase.guard';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(FirebaseGuard)
 @Controller('tags')
 export class TagsController {
   constructor(private readonly tagsService: TagsService) { }
 
   @Post()
   create(@Body() createTagDto: CreateTagDto, @GetCurrentUser() user: UserInterfaceJWT) {
-    createTagDto.user_id = user._id;
+    createTagDto.user_id = user.user_id;
     return this.tagsService.create(createTagDto);
   }
 
   @Get()
   findAll(@GetCurrentUser() user: UserInterfaceJWT) {
-    return this.tagsService.findAll(user._id);
+    return this.tagsService.findAll(user.user_id);
   }
 
   @Get(':id')
@@ -29,11 +30,11 @@ export class TagsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto, @GetCurrentUser() user: UserInterfaceJWT) {
-    return this.tagsService.update({ _id: id, user_id: user._id }, updateTagDto);
+    return this.tagsService.update({ _id: id, user_id: user.user_id }, updateTagDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string, @GetCurrentUser() user: UserInterfaceJWT) {
-    return this.tagsService.remove(id, user._id);
+    return this.tagsService.remove(id, user.user_id);
   }
 }

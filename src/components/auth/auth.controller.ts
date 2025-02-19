@@ -16,4 +16,9 @@ export class AuthController {
     return this.authService.validateJwt(token);
   }
 
+  @Post('/firebase/validate')
+  validateFirebaseToken(@Body('token') token: string) {
+    return this.authService.validateFirebaseToken(token);
+  }
+
 }
